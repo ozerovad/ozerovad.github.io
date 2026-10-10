@@ -1,0 +1,4 @@
+export.log
+*.tar.gz
+*.zip
+.DS_Store

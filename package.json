@@ -1,0 +1,10 @@
+{
+  "name": "vad-lake-journey",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node server.mjs",
+    "check": "node --check dist/js/main.js && node --check dist/js/lake-scene.js && node --check dist/js/content.js"
+  }
+}

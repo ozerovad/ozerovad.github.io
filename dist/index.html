@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#10120f" />
+    <meta
+      name="description"
+      content="Интерактивное путешествие по Вадскому озеру. Исследуйте трёхмерный ландшафт, его берега, историю и природу."
+    />
+    <title>ВАД — озеро в движении</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "./vendor/three.module.js",
+          "three/addons/loaders/GLTFLoader.js": "./vendor/GLTFLoader.js"
+        }
+      }
+    </script>
+    <script type="module" src="./js/main.js"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Вернуться к началу"
+        >ВАД<span class="brand-dot"></span
+      ></a>
+      <span class="edition"
+        >ОЗЕРО В ДВИЖЕНИИ <span> / </span> ИНТЕРАКТИВНЫЕ ЗАМЕТКИ</span
+      >
+      <nav aria-label="Управление картой">
+        <button id="overview-button" aria-pressed="false">
+          Вся карта <span>↗</span></button
+        ><button id="notebook-button">
+          Заметки <span id="saved-count">0</span>
+        </button>
+      </nav>
+    </header>
+
+    <main
+      id="journey"
+      aria-label="Прокручивайте страницу, чтобы исследовать озеро"
+    >
+      <section id="frame" aria-label="Интерактивная трёхмерная модель озера">
+        <div id="scene"></div>
+        <div class="scene-grain" aria-hidden="true"></div>
+        <div id="pin-layer" aria-label="Познавательные точки на карте"></div>
+        <div class="map-caption">
+          <span class="live-dot"></span> ВАДСКОЕ ОЗЕРО
+          <span class="caption-line"></span> ПРИРОДА, КОТОРУЮ ХОЧЕТСЯ
+          ИССЛЕДОВАТЬ
+        </div>
+        <article id="chapter-card" class="chapter-card">
+          <div class="eyebrow">
+            <span id="chapter-number">01 / 06</span><span>ПУТЕШЕСТВИЕ</span>
+          </div>
+          <h1 id="chapter-title">Выберите<br />живописный путь.</h1>
+          <p id="chapter-description">
+            Следуйте вдоль воды. Исследуйте берега. За каждым изгибом можно
+            узнать что-то новое.
+          </p>
+          <button id="next-button" class="next-link">
+            Вдоль берега <span>↓</span>
+          </button>
+        </article>
+        <div class="map-label" id="water-label" aria-hidden="true">
+          ВАД <span>ВАДСКОЕ ОЗЕРО</span>
+        </div>
+        <div class="compass" aria-hidden="true">
+          <span>С</span
+          ><svg viewBox="0 0 48 48">
+            <path d="M24 6 30 35 24 30 18 35Z" fill="currentColor" />
+            <circle
+              cx="24"
+              cy="24"
+              r="22"
+              fill="none"
+              stroke="currentColor"
+              stroke-opacity=".3"
+            />
+          </svg>
+        </div>
+        <div class="map-note">Цифровой ландшафт.<br />Время присмотреться.</div>
+        <div id="loading" class="loading" role="status">
+          <span class="loader-ring"></span
+          ><strong>Подготавливаем ландшафт</strong
+          ><span id="loading-progress">Следуем вдоль берегов…</span>
+        </div>
+        <div id="error" class="error" hidden>
+          <h2>Не удалось загрузить ландшафт.</h2>
+          <p>
+            Обновите страницу или включите поддержку трёхмерной графики в
+            браузере.
+          </p>
+          <button onclick="location.reload()">Попробовать снова</button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="bottombar">
+      <div class="scroll-cue">
+        <span>↓</span><span id="scroll-hint">ПРОКРУТИТЕ ДЛЯ ПРОГУЛКИ</span>
+      </div>
+      <nav id="chapter-nav" aria-label="Главы путешествия"></nav>
+      <div class="journey-progress">
+        <span id="progress-value">00%</span
+        ><span class="progress-track"><span id="progress-fill"></span></span>
+      </div>
+    </footer>
+
+    <aside
+      id="detail-panel"
+      class="side-panel"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="detail-title"
+      hidden
+    >
+      <button
+        class="close-button"
+        id="close-detail"
+        aria-label="Закрыть карточку"
+      >
+        ×
+      </button>
+      <span class="panel-eyebrow" id="detail-category">ЗАМЕТКА</span
+      ><span class="panel-number" id="detail-number">01</span>
+      <h2 id="detail-title"></h2>
+      <p id="detail-description"></p>
+      <div class="detail-meta">
+        <span>ПРИСМОТРИТЕСЬ</span><span id="detail-prompt"></span>
+      </div>
+      <button id="save-button" class="primary-button">
+        Сохранить в заметки <span>＋</span>
+      </button>
+      <p class="sample-note">Познавательные заметки о ландшафте.</p>
+    </aside>
+    <aside
+      id="notebook-panel"
+      class="side-panel"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="notebook-title"
+      hidden
+    >
+      <button
+        class="close-button"
+        id="close-notebook"
+        aria-label="Закрыть заметки"
+      >
+        ×
+      </button>
+      <span class="panel-eyebrow">ВАШИ ЗАМЕТКИ</span>
+      <h2 id="notebook-title">
+        Маленькие открытия,<br />которые хочется сохранить.
+      </h2>
+      <p>
+        Сохраняйте интересные места. Ваши заметки останутся в этом браузере.
+      </p>
+      <div id="notebook-list"></div>
+    </aside>
+    <div id="panel-backdrop" hidden></div>
+    <div id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
