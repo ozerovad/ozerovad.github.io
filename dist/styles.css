@@ -887,3 +887,25 @@ body.overview .map-label {
     letter-spacing: 0.7px;
   }
 }
+/* Компактная карточка помещается и на невысоком настольном экране. */
+@media (min-width: 901px) {
+  .chapter-card {
+    top: 12%;
+  }
+  .chapter-card h1 {
+    font-size: 38px;
+    margin-top: 22px;
+    margin-bottom: 16px;
+  }
+  .chapter-card p {
+    font-size: 12px;
+    line-height: 1.55;
+    max-width: 270px;
+  }
+  .chapter-card .next-link {
+    margin-top: 12px;
+  }
+}
+.map-note {
+  display: none;
+}
