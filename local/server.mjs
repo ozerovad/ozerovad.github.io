@@ -2,7 +2,7 @@
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
 import { resolve, extname } from "node:path";
-const root = resolve("dist");
+const root = resolve("..");
 const mime = {
   ".html": "text/html",
   ".js": "text/javascript",

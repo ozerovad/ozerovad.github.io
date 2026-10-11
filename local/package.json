@@ -5,6 +5,6 @@
   "type": "module",
   "scripts": {
     "dev": "node server.mjs",
-    "check": "node --check dist/js/main.js && node --check dist/js/lake-scene.js && node --check dist/js/content.js"
+    "check": "node --check ../js/main.js && node --check ../js/lake-scene.js && node --check ../js/content.js"
   }
 }
