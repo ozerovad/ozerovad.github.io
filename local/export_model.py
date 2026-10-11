@@ -17,5 +17,5 @@ for key,objects in groups.items():
  bpy.context.view_layer.objects.active=objects[0]
  if len(objects)>1: bpy.ops.object.join()
 # Node noise bump is a Blender shader; retain the exact geometry and base PBR colors.
-bpy.ops.export_scene.gltf(filepath=os.path.join(os.path.dirname(__file__),'dist/assets/lake.glb'),export_format='GLB',export_cameras=False,export_lights=False,export_apply=True,export_yup=True)
+bpy.ops.export_scene.gltf(filepath=os.path.join(os.path.dirname(__file__),'../assets/lake.glb'),export_format='GLB',export_cameras=False,export_lights=False,export_apply=True,export_yup=True)
 print('Browser model exported.')
